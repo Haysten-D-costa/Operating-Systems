@@ -1,0 +1,3 @@
+# PROGRAM 11 : To print all the prime numbers less than 20....
+# Programmer : Haysten D'costa
+#!/bin/bash

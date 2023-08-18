@@ -1,0 +1,3 @@
+# PROGRAM 17 : Generate the series : 1, 3, 2, 4, 3, 5, 4, 6....
+# Programmer : Haysten D'costa
+#!/bin/bash

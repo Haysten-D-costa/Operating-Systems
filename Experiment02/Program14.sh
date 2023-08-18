@@ -1,0 +1,3 @@
+# PROGRAM 14 : Write shell script to generate following series : 20, 22, 18, 20, 16, 18, 14, 16....
+# Programmer : Haysten D'costa
+#!/bin/bash

@@ -1,0 +1,3 @@
+# PROGRAM 15 : Append content to a file provided file name exists and it has write permission....
+# Programmer : Haysten D'costa
+#!/bin/bash

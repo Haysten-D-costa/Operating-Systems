@@ -1,0 +1,3 @@
+# PROGRAM 17 : Write a shell script to prompt user to enter 2 numbers and perform various arithmetic operations using switch statement....
+# Programmer : Haysten D'costa
+#!/bin/bash

@@ -1,0 +1,3 @@
+# PROGRAM 13 : Using switch case, print the capitals given the state name....
+# Programmer : Haysten D'costa
+#!/bin/bash

@@ -1,0 +1,3 @@
+# PROGRAM 12 : To check if the entered string is palindromic or not....
+# Programmer : Haysten D'costa
+#!/bin/bash
