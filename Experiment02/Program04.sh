@@ -3,11 +3,11 @@
 #!/bin/bash
 
 limit=10 # range - upto which tables required....
-echo "Enter a number : "
+echo -n "Enter a number : "
 read num
 
-echo "Tables of "$num" are : "
-for(( i=0; i<=limit; i++ )) # displays upto 10 tables....
+echo "Tables of $num are : "
+for (( i=0; i<=limit; i++ )) # displays upto 10 tables....
 do
 	echo " ->  "$num" x "$i = `expr $num \* $i` # displays in (num x i = result) format....
 done

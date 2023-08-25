@@ -2,11 +2,11 @@
 # Programmer : Haysten D'costa
 #!/bin/bash
 
-echo "Enter a number : "
+echo -n "Enter a number : "
 read num
 
 echo # 'echo' is used to print a new line....
-printf "Reversed number is : " # 'printf' can be used to display content without a new line....
+echo -n "Reversed number is : " # 'printf' can be used to display content without a new line....
 while [ $num -gt 0 ] # while number greater than 0, remove and display the last digit....
 do
     remainder=`expr $num % 10`

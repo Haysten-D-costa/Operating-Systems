@@ -2,19 +2,16 @@
 # Programmer : Haysten D'costa
 #!/bin/bash
 
-term_o=1
-term_e=3
-
-echo "Enter no. of terms in series : "; read n
+term=1
+echo -n "Enter no. of terms in series : "; read n
 echo "Series is : "
-for(( i=1; i<=n; i++ ))
+for (( i=1; i<=n; i++ ))
 do
+    echo -n $term" "
     if [ `expr $i % 2` -ne 0 ]
     then
-        printf $term_o" "
-        term_o=`expr $term_o + 1`
+        term=`expr $term + 2`
     else 
-        printf $term_e" "
-        term_e=`expr $term_e + 1`
+        term=`expr $term - 1`
     fi
 done

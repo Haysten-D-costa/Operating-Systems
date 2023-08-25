@@ -5,13 +5,19 @@
 limit=20
 echo "Prime numbers are : "
 
-for(( i=1; i<=limit; i++ ))
+for (( i=2; i<limit; i++ ))
 do
-    for(( j=2; j<=i; j++ ))
+    is_prime=1
+    for (( j=2; j<i; j++ ))
     do
-        if [ ` expr $i % $j` -ne 0 ]
+        if [ `expr $i % $j` -eq 0 ]
         then
-            echo $i
+            is_prime=0
         fi
     done
+    if [ $is_prime -eq 1 ]
+    then
+        echo -n $i" "
+    fi
 done    
+echo

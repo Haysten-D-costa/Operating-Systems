@@ -2,9 +2,9 @@
 # Programmer : Haysten D'costa
 #!/bin/bash
 
-echo "Enter first number  : "; read num1 # reading 3 numbers....
-echo "Enter second number : "; read num2
-echo "Enter third number  : "; read num3
+echo -n "Enter first number  : "; read num1 # reading 3 numbers....
+echo -n "Enter second number : "; read num2
+echo -n "Enter third number  : "; read num3
 
 if [ $num1 -eq $num2 -a $num2 -eq $num3 ] # if all numbers are equal, exit....
 then 

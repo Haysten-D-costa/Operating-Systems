@@ -4,7 +4,7 @@
 
 i=1
 num=20
-echo "Enter the no. of terms : " # reading the no. of terms in series....
+echo -n "Enter the no. of terms : " # reading the no. of terms in series....
 read n
 while [ $i -le `expr $n` ]
 do
@@ -17,6 +17,7 @@ do
     fi
     i=`expr $i + 1` # to increment i....
 done
+echo
 
 : ' # OR
 

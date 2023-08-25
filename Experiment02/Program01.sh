@@ -4,15 +4,12 @@
 
 d=`date +"%H"` # following the 24 hour format....
 
-if [ $d -ge 1 -a $d -lt 12 ] # if in range [1:00am and 12:00pm), good morning...
+if [ $d -ge 1 -a $d -lt 12 ] 
 then
 	echo "Good morning Boss !" 
-elif [ $d -ge 12 -a $d -lt 16 ] # if in range [12:00pm and 4:00pm), good afternoon...
+elif [ $d -ge 12 -a $d -lt 16 ]
 then
 	echo "Good afternoon Boss !"
-elif [ $d -ge 16 -a $d -lt 22 ] # if in range [4:00pm and 10:00pm), good evening...
-then
+else
 	echo "Good evening Boss !"
-else # if in range [10:00pm and 12:00pm], good night...
-	echo "Bye.....Good night !!"
 fi
