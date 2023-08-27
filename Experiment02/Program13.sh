@@ -2,15 +2,28 @@
 # Programmer : Haysten D'costa
 #!/bin/bash
 
-echo "Enter a state : "
+echo -n "Enter a state : "
 read state
 
 case "$state" in
-    "Goa") echo "Panaji";;
-    "Uttar Pradesh") echo "Lucknow";;
-    "Haryana") echo "Chandigarh";;
-    "Andhra Pradesh") echo "Amaravati";;
-    "Rajasthan") echo "Jaipur";;
-    "Tamil Nadu") echo "Chennai";;
-    *) echo "State not valid !"
+    "Goa") 
+        echo "Panaji"
+        ;;
+    "Uttar Pradesh") 
+        echo "Lucknow"
+        ;;
+    "Haryana") 
+        echo "Chandigarh"
+        ;;
+    "Andhra Pradesh") 
+        echo "Amaravati"
+        ;;
+    "Rajasthan") 
+        echo "Jaipur"
+        ;;
+    "Tamil Nadu") 
+        echo "Chennai"
+        ;;
+    *) 
+        echo "State not valid !"
 esac

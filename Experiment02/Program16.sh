@@ -7,7 +7,7 @@ echo -n "Enter no. of terms in series : "; read n
 echo "Series is : "
 for (( i=1; i<=n; i++ ))
 do
-    echo -n $term" "
+    echo -n "$term "
     if [ `expr $i % 2` -ne 0 ]
     then
         term=`expr $term + 2`

@@ -8,7 +8,8 @@ read num # reading input from user....
 
 for (( i=num; i>0; i-- )) # while num > 0, keep reducing and multiply & store in fact....
 do
-	fact=`expr $fact \* $i`
+	# fact=`expr $fact \* $i`
+	fact=$(( $fact * $i ))
 done
 
 echo "Factorial is : $fact" # displaying the factorial....

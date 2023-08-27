@@ -10,14 +10,13 @@ do
     is_prime=1
     for (( j=2; j<i; j++ ))
     do
-        if [ `expr $i % $j` -eq 0 ]
-        then
+        if [ `expr $i % $j` -eq 0 ]; then # if 'i' is divisible by any-number, => 'i' not prime....
             is_prime=0
         fi
     done
-    if [ $is_prime -eq 1 ]
+    if [ $is_prime ]
     then
-        echo -n $i" "
+        echo -n "$i "
     fi
 done    
 echo

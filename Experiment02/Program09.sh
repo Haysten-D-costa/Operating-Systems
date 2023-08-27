@@ -6,8 +6,7 @@ echo "Enter a number : "
 read num
 
 remainder=`expr $num % 2` # computing remainder....
-if [ $remainder -eq 0 ] # if remainder is equal to 0, then even else odd....
-then
+if [ $remainder -eq 0 ]; then
     echo "Number is even !"
 else
     echo "Number is odd !"

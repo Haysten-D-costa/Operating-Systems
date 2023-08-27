@@ -10,10 +10,21 @@ echo -n "Enter the operator : "
 read operator
 
 case "$operator" in
-    "+") echo "Result : $(($num1 + $num2))";;
-    "-") echo "Result : $(($num1 - $num2))";;
-    "*") echo "Result : $(($num1 * $num2))";;
-    "/") echo "Result : $(($num1 / $num2))";;
-    "%") echo "Result : $(($num1 % $num2))";;
-    *) echo "Invalid operator !"
+    "+") 
+        echo "Result : $(($num1 + $num2))"
+        ;;
+    "-") 
+        echo "Result : $(($num1 - $num2))"
+        ;;
+    "*") 
+        echo "Result : $(($num1 * $num2))"
+        ;;
+    "/") 
+        echo "Result : $(($num1 / $num2))"
+        ;;
+    "%") 
+        echo "Result : $(($num1 % $num2))"
+        ;;
+    *) 
+        echo "Invalid operator !"
 esac
