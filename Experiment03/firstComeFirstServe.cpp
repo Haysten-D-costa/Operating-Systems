@@ -1,7 +1,31 @@
 #include <iostream>
+#define MAX 10
 
-void computeWaitingTime(int n, int burst_time[], int arrival_time[], int waiting_time[], int turn_around_time[]) {
-    
+void printGChart(int n, double burst_time[], double arrival_time[], double waiting_time[], double turn_around_time[]) {
+
+    double ganttChart[MAX] = {0};
+    std::cout << std::endl << std::endl << "Gantt Chart : " << std::endl;
+    for(int i={}; i<n; i++) {
+        std::cout << "+----------";
+    }
+    std::cout << std::endl << "|    ";
+    for(int i=0; i<n; i++) {
+        std::cout << "P" << i << "    |    ";
+    }
+    std::cout << std::endl;
+    for(int i={}; i<n; i++) {
+        std::cout << "+----------";
+    }
+    ganttChart[0] = arrival_time[0];
+    for(int i=1; i<=n; i++) ganttChart[i] = ganttChart[i-1] + burst_time[i-1];
+
+    std::cout << std::endl << arrival_time[0] << " ";
+    for(int i=0; i<n; i++) {
+        std::cout << "         " << ganttChart[i];
+    }
+}
+void firstComeFirstServe(int n, double burst_time[], double arrival_time[], double waiting_time[], double turn_around_time[]) {
+
     waiting_time[0] = 0;
     for(int i=1; i<n; i++) {
         waiting_time[i] = waiting_time[i-1] + burst_time[i-1];
@@ -24,15 +48,7 @@ void computeWaitingTime(int n, int burst_time[], int arrival_time[], int waiting
     std::cout << std::endl << std::endl << "Average waiting time     : " << (sum_w / n);
     std::cout << std::endl << "Average turn around time : " << (sum_t / n);
 
-    std::cout << std::endl << "\t------------------------------------------------------------" << std::endl << "\t|\t";
-    for(int i=0; i<n; i++) {
-        std::cout << "P" << i << "\t|\t";
-    }
-    std::cout << std::endl << "\t------------------------------------------------------------" << std::endl;
-    std::cout << "\t" << arrival_time[0];
-    for(int i=0; i<n; i++) {
-        std::cout << "\t\t" << turn_around_time[i];
-    }
+    printGChart(n, burst_time, arrival_time, waiting_time, turn_around_time);
 }
 
 int main() {
@@ -41,16 +57,16 @@ int main() {
     std::cout << "Enter the no. of processes : ";
     std::cin >> n;
 
-    int burst_time[n];
-    int arrival_time[n];
-    int waiting_time[n];
-    int turn_around_time[n];
+    double burst_time[MAX];
+    double arrival_time[MAX];
+    double waiting_time[MAX];
+    double turn_around_time[MAX];
 
     std::cout << "Enter the burst time for each process : ";
     for(int i{}; i<n; i++) {
         std::cin >> burst_time[i];
         arrival_time[i] = i;
     }
-    computeWaitingTime(n, burst_time, arrival_time, waiting_time, turn_around_time);
+    firstComeFirstServe(n, burst_time, arrival_time, waiting_time, turn_around_time);
     return 0;
 }
