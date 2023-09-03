@@ -1,7 +1,7 @@
 #include <iostream>
 #define MAX 10
 
-void burstSort(int n, double burst_time[], double arrival_time[], int processOrder[]) {
+void sortProcessesForExecution(int n, double burst_time[], double arrival_time[], int processOrder[]) {
     
     for(int i=1; i<=n; i++) {
         for(int j=1; j<=n-i; j++) {
@@ -73,7 +73,7 @@ void shortestJobFirstArrival(int n, double burst_time[], double arrival_time[]) 
     for(int i{1}; i<=n; i++) {
         processOrder[i] = i; // setting the order of processes for execution....
     }
-    burstSort(n, burst_time, arrival_time, processOrder);
+    sortProcessesForExecution(n, burst_time, arrival_time, processOrder);
 
     ganttChartValues[0] = arrival_time[1];
     for(int i{1}; i<=n; i++) {
