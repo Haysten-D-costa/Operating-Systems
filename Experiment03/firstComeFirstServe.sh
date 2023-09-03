@@ -29,12 +29,12 @@ done
 echo -e "\nAverage waiting time     : $(($sum_w / $n))"
 echo -e "Average turn around time : $(($sum_t / $n))"
 
-echo -en "\n\nGantt Chart : ---------------------------------------------------------------------------\n\t|\t"
+echo -en "\n\nGantt Chart :\n---------------------------------------------------------------------------------\n|\t"
 for (( i=0; i<n; i++ )); do
     echo -en "P$i \t|\t"
 done
-echo -en "\n\t---------------------------------------------------------------------------------\n"
-echo -en "\t${arrival_time[0]}"
+echo -en "\n---------------------------------------------------------------------------------\n"
+echo -en "${arrival_time[0]}"
 for (( i=0; i<n; i++ )); do
     echo -en "\t\t${turn_around_time[$i]}"
 done
