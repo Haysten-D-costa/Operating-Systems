@@ -32,6 +32,9 @@ void firstComeFirstServe(int n, double burst_time[], double arrival_time[], doub
         waiting_time[i] = waiting_time[i-1] + burst_time[i-1];
     }
     std::cout << std::endl << "Process\t\tBurstTime\tArrivalTime\tWaitingTime\tTurnAroundTime" << std::endl;
+    //? "+-------------+---------------+-----------------+-----------------+--------------------+"
+    //? "|   Process   |   BurstTime   |   ArrivalTime   |   WaitingTime   |   TurnAroundTime   |"
+    //? "+-------------+---------------+-----------------+-----------------+--------------------+"
     for(int i={}; i<n; i++) {
         turn_around_time[i] = waiting_time[i] + burst_time[i]; // computing turn_around_time....
         std::cout << std::endl << "P" << i << "\t\t"
