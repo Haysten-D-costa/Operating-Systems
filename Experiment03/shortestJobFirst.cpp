@@ -20,21 +20,21 @@ void sortProcessesForExecution(int n, double burst_time[], int processOrder[]) {
 }
 void printGChart(double ganttChart[], int processOrder[], int n) {
     std::cout << std::endl << std::endl << "Gantt Chart : " << std::endl;
-    for(int i={}; i<n; i++) {
+    for(int i{}; i<n; i++) {
         std::cout << "+----------";
     } 
     std::cout << "+" << std::endl << "|    ";
-    for(int i=1; i<=n; i++) {
+    for(int i{1}; i<=n; i++) {
         std::cout << "P" << processOrder[i] << "    |    ";
     }
 
     std::cout << std::endl;
-    for(int i={}; i<n; i++) {
+    for(int i{}; i<n; i++) {
         std::cout << "+----------";
     } 
     std::cout << "+" << std::endl;
 
-    for(int i = 0; i <= n; i++) {
+    for(int i{}; i<=n; i++) {
         std::cout << ganttChart[i] << "          ";
     }
     std::cout << std::endl;
@@ -42,8 +42,8 @@ void printGChart(double ganttChart[], int processOrder[], int n) {
 
 void shortestJobFirst(int n, double burst_time[]) {
     
-    float avgWT = 0;
-    float avgTT = 0;
+    float avgWT {0};
+    float avgTT {0};
     int processOrder[MAX] = {0};
     double waiting_time[MAX] = {0};
     double completion_time[MAX] = {0};
@@ -70,7 +70,7 @@ void shortestJobFirst(int n, double burst_time[]) {
     avgWT /= n;
     avgTT /= n;
     std::cout << std::endl << "Process\t\tBurstTime\tWaitingTime\tTurnAroundTime" << std::endl;
-    for(int i=1; i<=n; i++) {
+    for(int i{1}; i<=n; i++) {
         std::cout << std::endl << "P" << processOrder[i] << "\t\t"
                   << burst_time[i] << "\t\t"
                   << waiting_time[i] << "\t\t"

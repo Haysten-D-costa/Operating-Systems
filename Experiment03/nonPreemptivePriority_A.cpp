@@ -40,33 +40,33 @@ void sortProcessesForExecution(int n, double burst_time[], double arrival_time[]
 }
 void printGChart(double ganttChart[], int processOrder[], int n) {
     std::cout << std::endl << std::endl << "Gantt Chart : " << std::endl;
-    for(int i={}; i<n; i++) {
+    for(int i{}; i<n; i++) {
         std::cout << "+----------";
     } 
     std::cout << "+" << std::endl << "|    ";
-    for(int i=1; i<=n; i++) {
+    for(int i{1}; i<=n; i++) {
         std::cout << "P" << processOrder[i] << "    |    ";
     }
     std::cout << std::endl;
-    for(int i={}; i<n; i++) {
+    for(int i{}; i<n; i++) {
         std::cout << "+----------";
     } 
     std::cout << "+" << std::endl;
 
-    for(int i = 0; i <= n; i++) {
+    for(int i{0}; i<=n; i++) {
         std::cout << ganttChart[i] << "          ";
     }
     std::cout << std::endl;
 }
 void nonPreemptivePriority(int n, double burst_time[], double arrival_time[], int priority[]) {
 
-    float avgWT = 0;    
-    float avgTT = 0;    
+    float avgWT {0};    
+    float avgTT {0};    
+    int processOrder[MAX] = {0};
     double waiting_time[MAX] = {0};
     double completion_time[MAX] = {0};
     double turn_around_time[MAX] = {0};
     double ganttChartValues[MAX] = {0};
-    int processOrder[MAX] = {0};
 
     for(int i{1}; i<=n; i++) {
         processOrder[i] = i;
@@ -87,7 +87,7 @@ void nonPreemptivePriority(int n, double burst_time[], double arrival_time[], in
     avgWT /= n;
     avgTT /= n;
     std::cout << std::endl << "Process\t\tBurstTime\tPriority\tWaitingTime\tTurnAroundTime" << std::endl;
-    for(int i=1; i<=n; i++) {
+    for(int i{1}; i<=n; i++) {
         std::cout << std::endl << "P" << processOrder[i] << "\t\t"
                   << burst_time[i] << "\t\t"
                   << priority[i] << "\t\t"
@@ -109,7 +109,7 @@ int main() {
     std::cout << "Enter the no. of processes : "; 
     std::cin >> n;
     std::cout << "Enter the burst time, arrival time and priorities for each process : " << std::endl;
-    for(int i=1; i<=n; i++) {
+    for(int i{1}; i<=n; i++) {
         std::cout << "Process " << i << std::endl;
         std::cout << "-> Burst Time   : "; std::cin >> burst_time[i];
         std::cout << "-> Arrival TIme : "; std::cin >> arrival_time[i];
