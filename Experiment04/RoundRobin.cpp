@@ -90,7 +90,7 @@ void displayDetails(int fp, std::vector <std::pair<std::string, int>> GanttChart
     
     for(int i{}; i<P.size(); i++) {
 
-        cAlign("|", GanttChart[i].first, v[0].length()+6);
+        cAlign("|", P[i].name, v[0].length()+6);
         cAlign("|", std::to_string(waiting_time[i]), v[1].length()+6);
         cAlign("|", std::to_string(P[i].arrival_time), v[2].length()+6);
         cAlign("|", std::to_string(P[i].burst_time), v[3].length()+6);
@@ -103,8 +103,8 @@ void displayDetails(int fp, std::vector <std::pair<std::string, int>> GanttChart
             std::cout << "-";
         }
     } std::cout << "+" << std::endl;
-    std::cout << "-> Average turn around time : " << avgTT << std::endl
-              << "-> Average waiting time     : " << avgWT;
+    std::cout << "-> Average turn around time : " << avgTT/P.size() << std::endl
+              << "-> Average waiting time     : " << avgWT/P.size();
 
     printGanttChart(fp, GanttChart, P);
 }
@@ -164,19 +164,19 @@ void roundRobinScheduling(std::vector <Process> &processes, int time_quantum) {
 }
 int main() {
 
-    std::vector <Process> processes = {
-        // /*
-        {"P1", 5, 3, false}, // works with correct output....
-        {"P2", 2, 1, false},
-        {"P3", 3, 2, false},
-        {"P4", 6, 0, false},
-        {"P5", 8, 2, false} 
-        // */
-        // {"P1", 12, 0, false}, // works with correct output....
-        // {"P2", 3, 1, false},
-        // {"P3", 5, 2, false}    
-    };
-    int time_quantum = 1;
+    int n; // no. of processes....
+    int time_quantum; // time slice for each process....
+    std::cout << "Enter the no. of processes : "; std::cin >> n;
+    std::vector <Process> processes(n);
+
+    for(int i{}; i<n; i++) {
+        std::cout << "Process P" << i+1 << " : " << std::endl;
+        std::cout << "-> Arrival Time : "; std::cin >> processes[i].arrival_time;
+        std::cout << "-> Burst Time   : "; std::cin >> processes[i].burst_time;
+        processes[i].name = "P"+std::to_string(i+1);
+        processes[i].visited = false;
+    }
+    std::cout << std::endl << "Enter the time quantum : "; std::cin >> time_quantum;
     roundRobinScheduling(processes, time_quantum);
     return 0;
 }
