@@ -9,8 +9,16 @@ struct Process { // Process Structure....
     int arrival_time;
     bool visited; // to keep track whether process considered for execution or not....
 };
+int findLastOccurrenceOf(std::vector <std::pair<std::string, int>> GanttChart, int key) {
+    int value;
+    for(int i=GanttChart.size(); i>=0; i--) {
+        if(GanttChart[i].first == "P"+std::to_string(key)) { 
+            value = GanttChart[i].second;
+            return value; 
+        }
+    }
+}
 void cAlign(std::string lT, std::string text, int width) {
-
     int left = (width - text.length())/2;
     int right = width - (left + text.length());
     std::cout << lT;
@@ -20,8 +28,65 @@ void cAlign(std::string lT, std::string text, int width) {
     std::cout.width(right);
     std::cout << "";
 }
-void printGanttChart(std::vector <std::pair<std::string, int>> GanttChart, std::vector <Process> processes, int fp) {
-    std::cout << std::endl << std::endl << "Gantt Chart : " << std::endl;
+void displayDetails(std::vector <std::pair<std::string, int>> GanttChart, std::vector <Process> P) {
+    float avgWT = 0;
+    float avgTT = 0;
+    double waiting_time[MAX] = {0};
+    double completion_time[MAX] = {0};
+    double turn_around_time[MAX] = {0};
+
+    /*
+    for(int i{1}; i<=P.size(); i++) {
+
+        //calculation of completion_time : 
+        completion_time[i] = findLastOccurrenceOf(GanttChart, i);
+        waiting_time[i] = completion_time[i] - P[i].burst_time - P[i].arrival_time;
+        turn_around_time[i] = waiting_time[i] + P[i].burst_time;
+        avgWT += waiting_time[i];
+        avgTT += turn_around_time[i]; 
+    }
+    std::vector <std::string> v = {"Process", "WaitingTime", "ArrivalTime", "BurstTime", "TurnAroundTime"};
+    for(int i{}; i<v.size(); i++) {
+        std::cout << "+";
+        for(int j{}; j<v[i].length()+6; j++) {
+            std::cout << "-";
+        }
+    } std::cout << "+" << std::endl;
+
+    for(int i{}; i<v.size(); i++) {
+        std::cout << "|   " << v[i] << "   ";
+    }
+    std::cout << "|" << std::endl;
+    
+    for(int i{}; i<v.size(); i++) {
+        std::cout << "+";
+        for(int j{}; j<v[i].length()+6; j++) {
+            std::cout << "-";
+        }
+    } std::cout << "+" << std::endl;
+    
+    for(int i{}; i<P.size(); i++) {
+
+        cAlign("|", GanttChart[i].first, v[0].length()+6);
+        cAlign("|", std::to_string(waiting_time[i]), v[1].length()+6);
+        cAlign("|", std::to_string(P[i].arrival_time), v[2].length()+6);
+        cAlign("|", std::to_string(P[i].burst_time), v[3].length()+6);
+        cAlign("|", std::to_string(turn_around_time[i]), v[4].length()+6); 
+        std::cout << "|" << std::endl;
+    }
+    for(int i{}; i<v.size(); i++) {
+        std::cout << "+";
+        for(int j{}; j<v[i].length()+6; j++) {
+            std::cout << "-";
+        }
+    } std::cout << "+" << std::endl;
+    std::cout << std::endl 
+              << "Average waiting time     : " << avgWT << std::endl
+              << "Average turn around time : " << avgTT;
+    */
+}
+void printGanttChart(int fp, std::vector <std::pair<std::string, int>> GanttChart, std::vector <Process> P) {
+    std::cout << std::endl << "Gantt Chart : " << std::endl;
     for(int i{}; i<GanttChart.size(); i++) {
         std::cout << "+----";
     }
@@ -37,11 +102,12 @@ void printGanttChart(std::vector <std::pair<std::string, int>> GanttChart, std::
     std::cout << "+" << std::endl;
 
     std::cout << fp;
-    for(int i{0}; i<GanttChart.size(); i++) {
+    for(int i{}; i<GanttChart.size(); i++) {
         if(GanttChart[i].second < 10) std::cout << "    " << GanttChart[i].second;
         else std::cout << "   " << GanttChart[i].second;
     }
     std::cout << std::endl;
+    displayDetails(GanttChart, P);
 }
 void checkNextProcess(int n, int time, std::queue <Process> &readyQueue, std::vector <Process> &processes, int time_quantum) { // Function checks and adds next process to the readyQueue, for execution....
     int pc = 0; // pc - process counter....
@@ -58,7 +124,7 @@ void roundRobinScheduling(std::vector <Process> &processes, int time_quantum) {
 
     int time = 0; // main CPU timer....
     int n = processes.size();
-    int fp; // first process that begins with execution....
+    int fp = 0; // first process that begins with execution....
     std::queue <Process> readyQueue; // readyQueue - DS used to hold the processes that are ready to execute....
     std::vector <std::pair<std::string, int>> GanttChart; // GanttChart - stores the sequence of processes(execution)....
     
@@ -73,7 +139,7 @@ void roundRobinScheduling(std::vector <Process> &processes, int time_quantum) {
                 if(!processes[i].visited) { flag = false; } // (flag == false) => processes left to be considered for execution....
             }
             if(flag) { 
-                printGanttChart(GanttChart, processes, fp); // display the ganttChart....
+                printGanttChart(fp, GanttChart, processes); // display the ganttChart....
                 exit(1); //! EXIT PROGRAM !!
             }
         } 
@@ -92,11 +158,6 @@ void roundRobinScheduling(std::vector <Process> &processes, int time_quantum) {
             if(current_process.burst_time > 0) { // if the current_process is remaining to execute (not completed),  
                 checkNextProcess(n, time, readyQueue, processes, time_quantum); // first check which processes arrive at the current time....
                 readyQueue.push(current_process); // then push the current process again to the readyQueue....
-            }
-            else {
-                int waiting_time = time - current_process.arrival_time;
-                int avg_waiting_time;
-                avg_waiting_time += waiting_time;
             }
         }
     }
