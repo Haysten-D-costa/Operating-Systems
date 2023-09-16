@@ -1,6 +1,19 @@
 #include <iostream>
+#include <iomanip>
+#include <vector>
 #define MAX 10
 
+void cAlign(std::string lT, std::string text, int width) {
+
+    int left = (width - text.length())/2;
+    int right = width - (left + text.length());
+    std::cout << lT;
+    std::cout.width(left + text.length());
+    std::cout.fill(' ');
+    std::cout << text;
+    std::cout.width(right);
+    std::cout << "";
+}
 // Function to sort processes based on arrival time and update other arrays accordingly....
 void sortProcessesForExecution(double arrival_time[], double burst_time[], int processOrder[], int n) {
     // Bubble sort the processes based on arrival time (arrival_time[])....
@@ -94,16 +107,45 @@ void firstComeFirstServe(double burst_time[], double arrival_time[], int n) {
     avgWT /= n;
     avgTT /= n;
 
-    std::cout << std::endl << "Process\t\tBurstTime\tArrivalTime\tWaitingTime\tTurnAroundTime" << std::endl;
-    for(int i{1}; i<=n; i++) {
-        std::cout << std::endl << "P" << processOrder[i] << "\t\t"
-                  << burst_time[i] << "\t\t"
-                  << arrival_time[i] << "\t\t"
-                  << waiting_time[i] << "\t\t"
-                  << turn_around_time[i];
+    std::vector <std::string> v = {"Process", "WaitingTime", "ArrivalTime", "BurstTime", "TurnAroundTime"};
+    for(int i{}; i<v.size(); i++) {
+        std::cout << "+";
+        for(int j{}; j<v[i].length()+6; j++) {
+            std::cout << "-";
+        }
+    } std::cout << "+" << std::endl;
+
+    for(int i{}; i<v.size(); i++) {
+        std::cout << "|   " << v[i] << "   ";
     }
-    std::cout << std::endl << std::endl << "Average waiting time     : " << avgWT;
-    std::cout << std::endl << "Average turn around time : " << avgTT;
+    std::cout << "|" << std::endl;
+    
+    for(int i{}; i<v.size(); i++) {
+        std::cout << "+";
+        for(int j{}; j<v[i].length()+6; j++) {
+            std::cout << "-";
+        }
+    } std::cout << "+" << std::endl;
+    
+    for(int i{1}; i<=n; i++) {
+
+        cAlign("|", "P"+std::to_string(i), v[0].length()+6);
+        cAlign("|", std::to_string(waiting_time[i]), v[1].length()+6);
+        cAlign("|", std::to_string(arrival_time[i]), v[2].length()+6);
+        cAlign("|", std::to_string(burst_time[i]), v[3].length()+6);
+        cAlign("|", std::to_string(turn_around_time[i]), v[4].length()+6); 
+        std::cout << "|" << std::endl;
+    }
+    for(int i{}; i<v.size(); i++) {
+        std::cout << "+";
+        for(int j{}; j<v[i].length()+6; j++) {
+            std::cout << "-";
+        }
+    } std::cout << "+" << std::endl;
+
+    std::cout << std::endl 
+              << "Average waiting time     : " << avgWT << std::endl
+              << "Average turn around time : " << avgTT;
 
     // Print the Gantt Chart....
     printGChart(ganttChartValue, processOrder, n);

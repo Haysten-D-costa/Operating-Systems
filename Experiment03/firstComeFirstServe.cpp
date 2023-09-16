@@ -21,7 +21,7 @@ void printGChart(int n, double burst_time[], double arrival_time[], double waiti
     for(int i{1}; i<=n; i++) ganttChart[i] = ganttChart[i-1] + burst_time[i-1];
 
     std::cout << std::endl << arrival_time[0] << " ";
-    for(int i{0}; i<n; i++) {
+    for(int i{1}; i<=n; i++) {
         std::cout << "         " << ganttChart[i];
     }
 }
@@ -32,9 +32,7 @@ void firstComeFirstServe(int n, double burst_time[], double arrival_time[], doub
         waiting_time[i] = waiting_time[i-1] + burst_time[i-1];
     }
     std::cout << std::endl << "Process\t\tBurstTime\tArrivalTime\tWaitingTime\tTurnAroundTime" << std::endl;
-    //? "+-------------+---------------+-----------------+-----------------+--------------------+"
-    //? "|   Process   |   BurstTime   |   ArrivalTime   |   WaitingTime   |   TurnAroundTime   |"
-    //? "+-------------+---------------+-----------------+-----------------+--------------------+"
+
     for(int i{}; i<n; i++) {
         turn_around_time[i] = waiting_time[i] + burst_time[i]; // computing turn_around_time....
         std::cout << std::endl << "P" << i << "\t\t"
@@ -66,8 +64,9 @@ int main() {
     double waiting_time[MAX];
     double turn_around_time[MAX];
 
-    std::cout << "Enter the burst time for each process : ";
+    std::cout << "Enter the burst time for each process : " << std::endl << std::endl;
     for(int i{}; i<n; i++) {
+        std::cout << "Burst time for P" << i+1 << " : ";
         std::cin >> burst_time[i];
         arrival_time[i] = i;
     }

@@ -2,7 +2,7 @@
 #define MAX 10
 
 void sortProcessesForExecution(int n, double burst_time[], int processOrder[]) {
-    
+
     for(int i{1}; i<=n; i++) {
         for(int j{1}; j<=n-i; j++) {
             if(burst_time[j] > burst_time[j+1]) {
@@ -22,7 +22,7 @@ void printGChart(double ganttChart[], int processOrder[], int n) {
     std::cout << std::endl << std::endl << "Gantt Chart : " << std::endl;
     for(int i{}; i<n; i++) {
         std::cout << "+----------";
-    } 
+    }
     std::cout << "+" << std::endl << "|    ";
     for(int i{1}; i<=n; i++) {
         std::cout << "P" << processOrder[i] << "    |    ";
@@ -31,7 +31,7 @@ void printGChart(double ganttChart[], int processOrder[], int n) {
     std::cout << std::endl;
     for(int i{}; i<n; i++) {
         std::cout << "+----------";
-    } 
+    }
     std::cout << "+" << std::endl;
 
     for(int i{}; i<=n; i++) {
@@ -41,7 +41,7 @@ void printGChart(double ganttChart[], int processOrder[], int n) {
 }
 
 void shortestJobFirst(int n, double burst_time[]) {
-    
+
     float avgWT {0};
     float avgTT {0};
     int processOrder[MAX] = {0};
@@ -86,11 +86,12 @@ int main() {
     int n;
     double burst_time[MAX] = {0};
 
-    std::cout << "Enter the no. of processes : "; 
+    std::cout << "Enter the no. of processes : ";
     std::cin >> n;
-    std::cout << "Enter the Burst Times for each process : ";
-    
+    std::cout << "Enter the Burst Times for each process : " << std::endl << std::endl;
+
     for(int i{1}; i<=n; i++) {
+            std::cout << "Burst Time for P" << i << " : ";
         std::cin >> burst_time[i];
     }
     shortestJobFirst(n, burst_time);
