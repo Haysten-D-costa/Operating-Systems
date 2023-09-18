@@ -1,12 +1,13 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#define MAX 20
+#include "grid_format.h"
+#define MAX 10
 
 struct Process { // Process Structure....
     std::string name; // process idf....
-    int burst_time;
     int arrival_time;
+    int burst_time;
     bool visited; // to keep track whether process considered for execution or not....
 };
 int findLastOccurrenceOf(std::vector <std::pair<std::string, int>> GanttChart, int key) {
@@ -18,43 +19,11 @@ int findLastOccurrenceOf(std::vector <std::pair<std::string, int>> GanttChart, i
         }
     }
 }
-void cAlign(std::string lT, std::string text, int width) {
-    int left = (width - text.length())/2;
-    int right = width - (left + text.length());
-    std::cout << lT;
-    std::cout.width(left + text.length());
-    std::cout.fill(' ');
-    std::cout << text;
-    std::cout.width(right);
-    std::cout << "";
-}
-void printGanttChart(int fp, std::vector <std::pair<std::string, int>> GanttChart, std::vector <Process> P) {
-    std::cout << std::endl << std::endl << "Gantt Chart : " << std::endl;
-    for(int i{}; i<GanttChart.size(); i++) {
-        std::cout << "+----";
-    }
-    std::cout << "+" << std::endl << "| ";
-    for(int i{}; i<GanttChart.size(); i++) {
-        std::cout << GanttChart[i].first << " | ";
-    }
-
-    std::cout << std::endl;
-    for(int i{}; i<GanttChart.size(); i++) {
-        std::cout << "+----";
-    }
-    std::cout << "+" << std::endl;
-
-    std::cout << fp;
-    for(int i{}; i<GanttChart.size(); i++) {
-        if(GanttChart[i].second < 10) std::cout << "    " << GanttChart[i].second;
-        else std::cout << "   " << GanttChart[i].second;
-    }
-    std::cout << std::endl;
-    // displayDetails(GanttChart, P);
-}
-void displayDetails(int fp, std::vector <std::pair<std::string, int>> GanttChart, std::vector <Process> P) {
+void computeDetails(int fp, std::vector <std::pair<std::string, int>> GanttChart, std::vector <Process> P) {
     float avgWT = 0;
     float avgTT = 0;
+    int burst_time[MAX] = {0};
+    int arrival_time[MAX] = {0};
     int waiting_time[MAX] = {0};
     int completion_time[MAX] = {0};
     int turn_around_time[MAX] = {0};
@@ -63,50 +32,20 @@ void displayDetails(int fp, std::vector <std::pair<std::string, int>> GanttChart
         completion_time[i-1] = findLastOccurrenceOf(GanttChart, i);
     }
     for(int i{0}; i<P.size(); i++) {
+        burst_time[i] = P[i].burst_time; // creating a burst_time array....
+        arrival_time[i] = P[i].arrival_time; // creating a arrival_time array(for grid/table display purpose)....
         waiting_time[i] = completion_time[i] - P[i].burst_time - P[i].arrival_time;
         turn_around_time[i] = waiting_time[i] + P[i].burst_time;
         avgWT += waiting_time[i];
         avgTT += turn_around_time[i]; 
     }
     std::vector <std::string> v = {"Process", "WaitingTime", "ArrivalTime", "BurstTime", "TurnAroundTime"};
-    for(int i{}; i<v.size(); i++) {
-        std::cout << "+";
-        for(int j{}; j<v[i].length()+6; j++) {
-            std::cout << "-";
-        }
-    } std::cout << "+" << std::endl;
-
-    for(int i{}; i<v.size(); i++) {
-        std::cout << "|   " << v[i] << "   ";
-    }
-    std::cout << "|" << std::endl;
     
-    for(int i{}; i<v.size(); i++) {
-        std::cout << "+";
-        for(int j{}; j<v[i].length()+6; j++) {
-            std::cout << "-";
-        }
-    } std::cout << "+" << std::endl;
-    
-    for(int i{}; i<P.size(); i++) {
+    grid::printDetailsTable(P.size(), v, arrival_time, burst_time, waiting_time, turn_around_time);
+    std::cout << "-> Average waiting time     : " << avgWT/P.size()<< std::endl
+              << "-> Average turn around time : " << avgTT/P.size();
 
-        cAlign("|", P[i].name, v[0].length()+6);
-        cAlign("|", std::to_string(waiting_time[i]), v[1].length()+6);
-        cAlign("|", std::to_string(P[i].arrival_time), v[2].length()+6);
-        cAlign("|", std::to_string(P[i].burst_time), v[3].length()+6);
-        cAlign("|", std::to_string(turn_around_time[i]), v[4].length()+6); 
-        std::cout << "|" << std::endl;
-    }
-    for(int i{}; i<v.size(); i++) {
-        std::cout << "+";
-        for(int j{}; j<v[i].length()+6; j++) {
-            std::cout << "-";
-        }
-    } std::cout << "+" << std::endl;
-    std::cout << "-> Average turn around time : " << avgTT/P.size() << std::endl
-              << "-> Average waiting time     : " << avgWT/P.size();
-
-    printGanttChart(fp, GanttChart, P);
+    grid::printGanttChart(fp, GanttChart);
 }
 void checkNextProcess(int n, int time, std::queue <Process> &readyQueue, std::vector <Process> &processes, int time_quantum) { // Function checks and adds next process to the readyQueue, for execution....
     int pc = 0; // pc - process counter....
@@ -139,7 +78,7 @@ void roundRobinScheduling(std::vector <Process> &processes, int time_quantum) {
             }
             if(flag) { 
                 // printGanttChart(fp, GanttChart, processes); // display the ganttChart....
-                displayDetails(fp, GanttChart, processes);
+                computeDetails(fp, GanttChart, processes);
                 exit(1); //! EXIT PROGRAM !!
             }
         } 
