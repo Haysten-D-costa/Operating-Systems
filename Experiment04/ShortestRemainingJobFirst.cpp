@@ -1,6 +1,5 @@
 #include <iostream>
 #include <queue>
-#include <cstring>
 #include <vector>
 #include <algorithm>
 #define MAX 10
@@ -10,7 +9,6 @@ struct Process {
     int arrival_time;
     int burst_time;
     bool arrived;
-    bool executed;
 };
 int findLastOccurrenceOf(std::vector <std::pair<std::string, int>> GanttChart, int key) {
     int value;
@@ -53,7 +51,6 @@ void printGanttChart(int fp, std::vector <std::pair<std::string, int>> GanttChar
         else std::cout << "   " << GanttChart[i].second;
     }
     std::cout << std::endl;
-    // displayDetails(GanttChart, P);
 }
 void displayDetails(int fp, std::vector <std::pair<std::string, int>> GanttChart, std::vector <Process> P) {
     float avgWT = 0;
@@ -106,23 +103,12 @@ void displayDetails(int fp, std::vector <std::pair<std::string, int>> GanttChart
             std::cout << "-";
         }
     } std::cout << "+" << std::endl;
-    std::cout << "-> Average turn around time : " << avgTT/P.size() << std::endl
-              << "-> Average waiting time     : " << avgWT/P.size();
+    std::cout << "-> Average waiting time     : " << avgWT/P.size()<< std::endl
+              << "-> Average turn around time : " << avgTT/P.size();
 
     printGanttChart(fp, GanttChart, P);
 }
-
-void showq(std::queue<Process> gq) {
-	std::queue<Process> g = gq;
-	while (!g.empty()) {
-        std::cout << "\n----------------------"; 
-		std::cout << "\nName : " << g.front().name << "\nArrived : " << g.front().arrived << "\nBT : " << g.front().burst_time << "\nExecuted : " << g.front().executed;
-        std::cout << "\n----------------------";
-		g.pop();
-	}
-	std::cout << '\n';
-}
-bool cmpBT(const Process& a, const Process& b) {
+bool cmpBT(const Process& a, const Process& b) { // to sort based on the burst time....
     return a.burst_time < b.burst_time;
 }
 void sortProcesses(std::vector <Process>& processes) {
@@ -135,15 +121,13 @@ void sortQueue(std::queue <Process>& Q) {
         Q.pop();
     }
     sortProcesses(temp);
-
     for(const Process& p : temp) {
         Q.push(p);
     }
 }
 void checkArrivedProcesses(int time, std::vector <Process>& processes, std::queue <Process>& Q) {
-
     for(int i{}; i<processes.size(); i++) {
-        if((processes[i].arrived == 0) && (processes[i].arrival_time <= time) && (processes[i].executed == 0)) { 
+        if((!processes[i].arrived) && (processes[i].arrival_time <= time)) { 
             processes[i].arrived = true;
             Q.push(processes[i]); 
         }
@@ -151,25 +135,21 @@ void checkArrivedProcesses(int time, std::vector <Process>& processes, std::queu
 }
 void shortestRemainingJobFirst(std::vector <Process>& processes) {
     
-    int fp = 999;
+    int fp = 100;
     int time = 0;
     std::queue <Process> Q;
     std::vector <std::pair<std::string, int>> GanttChart;
-
     do {
         checkArrivedProcesses(time, processes, Q);
         sortQueue(Q);
         // showq(Q); /* to display which is next process for execution...
 
-        if(fp == 999) { fp = Q.front().arrival_time; }
-        Q.front().burst_time--;
-        time++;
+        if(fp == 100) { fp = Q.front().arrival_time; }
+        Q.front().burst_time --;
+        time ++;
         GanttChart.push_back(std::make_pair(Q.front().name, time));
+        if(Q.front().burst_time == 0) { Q.pop(); }
 
-        if(Q.front().burst_time == 0) {
-            Q.front().executed = true;
-            Q.pop();
-        }
     } while(!Q.empty());
     displayDetails(fp, GanttChart, processes);
 }
@@ -177,25 +157,26 @@ void shortestRemainingJobFirst(std::vector <Process>& processes) {
 int main() {
 
     int n;
-    // std::cout << "Enter the no. of processes : "; std::cin >> n;
-    std::vector <Process> processes {
-        {"P1", 3, 5, false, false},
-        {"P2", 1, 2, false, false},
-        {"P3", 2, 1, false, false},
-        {"P4", 0, 4, false, false},
-        {"P5", 2, 3, false, false}
-    };
-    // for(int i{}; i<n; i++) {
-    //     std::cout << "Process P" << i+1 << " : " << std::endl;
-    //     std::cout << "-> Arrival Time : "; std::cin >> processes[i].arrival_time;
-    //     std::cout << "-> Burst Time   : "; std::cin >> processes[i].burst_time;
-    //     processes[i].name = "P"+std::to_string(i+1);
-    // }
+    std::cout << "Enter the no. of processes : "; std::cin >> n;
+    std::vector <Process> processes(n);
+
+    for(int i{}; i<n; i++) {
+        std::cout << "Process P" << i+1 << " : " << std::endl;
+        std::cout << "-> Arrival Time : "; std::cin >> processes[i].arrival_time;
+        std::cout << "-> Burst Time   : "; std::cin >> processes[i].burst_time;
+        processes[i].name = "P"+std::to_string(i+1);
+    }
     shortestRemainingJobFirst(processes);
     return 0;
 }
-/*
-    *(line 68) std::cout << "Executing " << Q.front().name << " at time " << time << " and RemTime : " << Q.front().burst_time << std::endl;
-    *(line 71) std::cout << "Now, remTime : " << Q.front().burst_time << " and time : " << time << std::endl;
-    *(line 77) std::cout << "Done with " << Q.front().name << std::endl;
+/* 
+    ? To check the actual working of the algorithm....
+    *   (line 68) std::cout << "Executing " << Q.front().name << " at time " << time << " and RemTime : " << Q.front().burst_time << std::endl;
+    *   (line 71) std::cout << "Now, remTime : " << Q.front().burst_time << " and time : " << time << std::endl;
+    *   (line 77) std::cout << "Done with " << Q.front().name << std::endl;
+    {"P1", 3, 5, false}, //? works for int values....
+    {"P2", 1, 2, false}, //? doesn't work perfectly for fp values(since we increment by 1 each time)...
+    {"P3", 2, 1, false},
+    {"P4", 0, 4, false},
+    {"P5", 2, 3, false}
 */
