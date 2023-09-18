@@ -6,23 +6,24 @@ void printGChart(int n, double burst_time[], double arrival_time[], double waiti
     double ganttChart[MAX] = {0};
     std::cout << std::endl << std::endl << "Gantt Chart : " << std::endl;
     for(int i{1}; i<=n; i++) {
-        std::cout << "+----------";
+        std::cout << "+----";
     } std::cout << "+";
 
-    std::cout << std::endl << "|    ";
+    std::cout << std::endl << "| ";
     for(int i{1}; i<=n; i++) {
-        std::cout << "P" << i << "    |    ";
+        std::cout << "P" << i << " | ";
     }
     std::cout << std::endl;
     for(int i{1}; i<=n; i++) {
-        std::cout << "+----------";
+        std::cout << "+----";
     } std::cout << "+";
     ganttChart[0] = arrival_time[0];
     for(int i{1}; i<=n; i++) ganttChart[i] = ganttChart[i-1] + burst_time[i-1];
 
-    std::cout << std::endl << arrival_time[0] << " ";
+    std::cout << std::endl << arrival_time[0] << "    ";
     for(int i{1}; i<=n; i++) {
-        std::cout << "         " << ganttChart[i];
+        if(ganttChart[i] < 10) { std::cout << ganttChart[i] << "    "; }
+        else { std::cout << ganttChart[i] << "   "; }
     }
 }
 void firstComeFirstServe(int n, double burst_time[], double arrival_time[], double waiting_time[], double turn_around_time[]) {

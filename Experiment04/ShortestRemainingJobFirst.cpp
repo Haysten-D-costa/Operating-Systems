@@ -2,7 +2,7 @@
 #include <vector>
 #include <queue>
 #include <algorithm>
-#include "grid_format.h"
+#include "../grid_format.h"
 #define MAX 10
 
 struct Process {
@@ -94,12 +94,15 @@ void shortestRemainingJobFirst(std::vector <Process>& processes) {
 int main() {
 
     int n;
+    bool useAT = false;
     std::cout << "Enter the no. of processes : "; std::cin >> n;
+    std::cout << "Enter arrival times for each process > [1-Yes / 0-No] "; std::cin >> useAT;
     std::vector <Process> processes(n);
 
     for(int i{}; i<n; i++) {
         std::cout << "Process P" << i+1 << " : " << std::endl;
-        std::cout << "-> Arrival Time : "; std::cin >> processes[i].arrival_time;
+        if(useAT) { std::cout << "-> Arrival Time : "; std::cin >> processes[i].arrival_time; }
+        else { processes[i].arrival_time = 0; }
         std::cout << "-> Burst Time   : "; std::cin >> processes[i].burst_time;
         processes[i].name = "P"+std::to_string(i+1);
     }

@@ -21,21 +21,21 @@ void sortProcessesForExecution(int n, double burst_time[], int processOrder[]) {
 void printGChart(double ganttChart[], int processOrder[], int n) {
     std::cout << std::endl << std::endl << "Gantt Chart : " << std::endl;
     for(int i{}; i<n; i++) {
-        std::cout << "+----------";
+        std::cout << "+----";
     }
-    std::cout << "+" << std::endl << "|    ";
+    std::cout << "+" << std::endl << "| ";
     for(int i{1}; i<=n; i++) {
-        std::cout << "P" << processOrder[i] << "    |    ";
+        std::cout << "P" << processOrder[i] << " | ";
     }
 
     std::cout << std::endl;
     for(int i{}; i<n; i++) {
-        std::cout << "+----------";
+        std::cout << "+----";
     }
     std::cout << "+" << std::endl;
 
     for(int i{}; i<=n; i++) {
-        std::cout << ganttChart[i] << "          ";
+        std::cout << ganttChart[i] << "    ";
     }
     std::cout << std::endl;
 }
