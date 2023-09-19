@@ -11,7 +11,7 @@ namespace grid {
         std::cout << text;
         std::cout.width(right);
         std::cout << "";
-    }
+    }                                                          // double for PP Scheduling(double values case)....
     void printDetailsTable(int n, std::vector <std::string> v, int at[], int bt[], int wt[], int tat[]) {
         for(int i{}; i<v.size(); i++) {
         std::cout << "+";
@@ -47,7 +47,7 @@ namespace grid {
                 std::cout << "-";
             }
         } std::cout << "+" << std::endl;
-    }
+    }                                                                // double for PP Scheduling(double values case)....
     void printGanttChart(int fp, std::vector <std::pair<std::string, int>> GanttChart) {
         std::cout << std::endl << std::endl << "Gantt Chart : " << std::endl;
         for(int i{}; i<GanttChart.size(); i++) {
