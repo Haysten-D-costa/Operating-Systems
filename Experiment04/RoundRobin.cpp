@@ -6,11 +6,11 @@
 
 struct Process { // Process Structure....
     std::string name; // process idf....
-    int arrival_time;
-    int burst_time;
+    double arrival_time;
+    double burst_time;
     bool visited; // to keep track whether process considered for execution or not....
 };
-int findLastOccurrenceOf(std::vector <std::pair<std::string, int>> GanttChart, int key) {
+int findLastOccurrenceOf(std::vector <std::pair<std::string, double>> GanttChart, int key) {
     int value;
     for(int i=GanttChart.size(); i>=0; i--) {
         if(GanttChart[i].first == "P"+std::to_string(key)) {
@@ -19,14 +19,14 @@ int findLastOccurrenceOf(std::vector <std::pair<std::string, int>> GanttChart, i
         }
     }
 }
-void computeDetails(int fp, std::vector <std::pair<std::string, int>> GanttChart, std::vector <Process> P) {
+void computeDetails(int fp, std::vector <std::pair<std::string, double>> GanttChart, std::vector <Process> P) {
     float avgWT = 0;
     float avgTT = 0;
-    int burst_time[MAX] = {0};
-    int arrival_time[MAX] = {0};
-    int waiting_time[MAX] = {0};
-    int completion_time[MAX] = {0};
-    int turn_around_time[MAX] = {0};
+    double burst_time[MAX] = {0};
+    double arrival_time[MAX] = {0};
+    double waiting_time[MAX] = {0};
+    double completion_time[MAX] = {0};
+    double turn_around_time[MAX] = {0};
 
     for(int i{1}; i<=P.size(); i++) { // computation of completion_time for each process....
         completion_time[i-1] = findLastOccurrenceOf(GanttChart, i);
@@ -47,24 +47,22 @@ void computeDetails(int fp, std::vector <std::pair<std::string, int>> GanttChart
 
     grid::printGanttChart(fp, GanttChart);
 }
-void checkNextProcess(int n, int time, std::queue <Process> &readyQueue, std::vector <Process> &processes, int time_quantum) { // Function checks and adds next process to the readyQueue, for execution....
-    int pc = 0; // pc - process counter....
-    checkNext: 
-    while((processes[pc].arrival_time <= time) && (pc < n) && (!processes[pc].visited)) // if arrival_time of process is less than the time, and not already added to the readyQueue, enter the loop....
-    {
-        readyQueue.push(processes[pc]); // add process to the readyQueue....
-        processes[pc].visited = true;   // set the process as visited....
-        pc++; // increment the process counter....
+void checkNextProcess(int n, int time, std::queue <Process> &readyQueue, std::vector <Process> &processes, double time_quantum) { // Function checks and adds next process to the readyQueue, for execution....
+    
+    for(int i{}; i<processes.size(); i++) {
+        if((processes[i].arrival_time <= time) && (!processes[i].visited)) {
+            readyQueue.push(processes[i]);
+            processes[i].visited = true;
+        }
     }
-    pc++; if(pc < n) { goto checkNext; }
 }
-void roundRobinScheduling(std::vector <Process> &processes, int time_quantum) {
+void roundRobinScheduling(std::vector <Process> &processes, double time_quantum) {
 
-    int time = 0; // main CPU timer....
+    double time = 0; // main CPU timer....
     int n = processes.size();
     int fp = 0; // first process that begins with execution....
     std::queue <Process> readyQueue; // readyQueue - DS used to hold the processes that are ready to execute....
-    std::vector <std::pair<std::string, int>> GanttChart; // GanttChart - stores the sequence of processes(execution)....
+    std::vector <std::pair<std::string, double>> GanttChart; // GanttChart - stores the sequence of processes(execution)....
     
     while(!readyQueue.empty() || !processes.empty()) // while processes available, and waiting to execute(not in readyQueue)....
     { 
@@ -87,7 +85,7 @@ void roundRobinScheduling(std::vector <Process> &processes, int time_quantum) {
             Process current_process = readyQueue.front();
             readyQueue.pop(); // pop element from readyQueue for execution....
 
-            int execution_time = std::min(time_quantum, current_process.burst_time);
+            double execution_time = std::min(time_quantum, current_process.burst_time);
             current_process.burst_time -= execution_time;
             time += execution_time;
 

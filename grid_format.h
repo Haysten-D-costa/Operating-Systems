@@ -11,13 +11,50 @@ namespace grid {
         std::cout << text;
         std::cout.width(right);
         std::cout << "";
-    }                                                          // double for PP Scheduling(double values case)....
-    void printDetailsTable(int n, std::vector <std::string> v, int at[], int bt[], int wt[], int tat[]) {
+    } 
+    void printDetailsTable(int n, std::vector <std::string> v, double at[], double bt[], double wt[], double tat[], int p[]) { // overloaded function, to display priority, if exists....
         for(int i{}; i<v.size(); i++) {
-        std::cout << "+";
-        for(int j{}; j<v[i].length()+6; j++) {
-            std::cout << "-";
+            std::cout << "+";
+            for(int j{}; j<v[i].length()+6; j++) {
+                std::cout << "-";
+            }
+        } std::cout << "+" << std::endl;
+
+        for(int i{}; i<v.size(); i++) {
+            std::cout << "|   " << v[i] << "   ";
         }
+        std::cout << "|" << std::endl;
+        
+        for(int i{}; i<v.size(); i++) {
+            std::cout << "+";
+            for(int j{}; j<v[i].length()+6; j++) {
+                std::cout << "-";
+            }
+        } std::cout << "+" << std::endl;
+        
+        for(int i{}; i<n; i++) {
+
+            cAlign("|", "P"+std::to_string(i+1), v[0].length()+6);
+            cAlign("|", std::to_string(wt[i]), v[1].length()+6);
+            cAlign("|", std::to_string(at[i]), v[2].length()+6);
+            cAlign("|", std::to_string(bt[i]), v[3].length()+6);
+            cAlign("|", std::to_string(tat[i]), v[4].length()+6); 
+            cAlign("|", std::to_string(p[i]), v[5].length()+6); 
+            std::cout << "|" << std::endl;
+        }
+        for(int i{}; i<v.size(); i++) {
+            std::cout << "+";
+            for(int j{}; j<v[i].length()+6; j++) {
+                std::cout << "-";
+            }
+        } std::cout << "+" << std::endl;
+    }                                                         // double for PP Scheduling(double values case)....
+    void printDetailsTable(int n, std::vector <std::string> v, double at[], double bt[], double wt[], double tat[]) {
+        for(int i{}; i<v.size(); i++) {
+            std::cout << "+";
+            for(int j{}; j<v[i].length()+6; j++) {
+                std::cout << "-";
+            }
         } std::cout << "+" << std::endl;
 
         for(int i{}; i<v.size(); i++) {
@@ -47,8 +84,9 @@ namespace grid {
                 std::cout << "-";
             }
         } std::cout << "+" << std::endl;
-    }                                                                // double for PP Scheduling(double values case)....
-    void printGanttChart(int fp, std::vector <std::pair<std::string, int>> GanttChart) {
+    }
+                                                              // double for PP Scheduling(double values case)....
+    void printGanttChart(int fp, std::vector <std::pair<std::string, double>> GanttChart) {
         std::cout << std::endl << std::endl << "Gantt Chart : " << std::endl;
         for(int i{}; i<GanttChart.size(); i++) {
             std::cout << "+----";
@@ -57,13 +95,11 @@ namespace grid {
         for(int i{}; i<GanttChart.size(); i++) {
             std::cout << GanttChart[i].first << " | ";
         }
-
         std::cout << std::endl;
         for(int i{}; i<GanttChart.size(); i++) {
             std::cout << "+----";
         }
         std::cout << "+" << std::endl;
-
         std::cout << fp;
         for(int i{}; i<GanttChart.size(); i++) {
             if(GanttChart[i].second < 10) std::cout << "    " << GanttChart[i].second;

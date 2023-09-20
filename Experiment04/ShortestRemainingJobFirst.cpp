@@ -7,12 +7,12 @@
 
 struct Process {
     std::string name;
-    int arrival_time;
-    int burst_time;
+    double arrival_time;
+    double burst_time;
     bool arrived; // to keep track whether process considered or not....
 };
-int findLastOccurrenceOf(std::vector <std::pair<std::string, int>> GanttChart, int key) {
-    int value;
+double findLastOccurrenceOf(std::vector <std::pair<std::string, double>> GanttChart, int key) {
+    double value;
     for(int i=GanttChart.size(); i>=0; i--) {
         if(GanttChart[i].first == "P"+std::to_string(key)) {
             value = GanttChart[i].second;
@@ -20,14 +20,14 @@ int findLastOccurrenceOf(std::vector <std::pair<std::string, int>> GanttChart, i
         }
     }
 }
-void computeDetails(int fp, std::vector <std::pair<std::string, int>> GanttChart, std::vector <Process> P) {
+void computeDetails(int fp, std::vector <std::pair<std::string, double>> GanttChart, std::vector <Process> P) {
     float avgWT = 0;
     float avgTT = 0;
-    int burst_time[MAX] = {0};
-    int arrival_time[MAX] = {0};
-    int waiting_time[MAX] = {0};
-    int completion_time[MAX] = {0};
-    int turn_around_time[MAX] = {0};
+    double burst_time[MAX] = {0};
+    double arrival_time[MAX] = {0};
+    double waiting_time[MAX] = {0};
+    double completion_time[MAX] = {0};
+    double turn_around_time[MAX] = {0};
 
     for(int i{1}; i<=P.size(); i++) { // computation of completion_time for each process....
         completion_time[i-1] = findLastOccurrenceOf(GanttChart, i);
@@ -62,7 +62,7 @@ void sortQueue(std::queue <Process>& Q) {
         Q.push(p);
     }
 }
-void checkArrivedProcesses(int time, std::vector <Process>& processes, std::queue <Process>& Q) {
+void checkArrivedProcesses(double time, std::vector <Process>& processes, std::queue <Process>& Q) {
     for(int i{}; i<processes.size(); i++) {
         if((!processes[i].arrived) && (processes[i].arrival_time <= time)) { 
             processes[i].arrived = true;
@@ -73,17 +73,17 @@ void checkArrivedProcesses(int time, std::vector <Process>& processes, std::queu
 void shortestRemainingJobFirst(std::vector <Process>& processes) {
     
     int fp = 100;
-    int time = 0;
+    double time = 0;
     std::queue <Process> Q;
-    std::vector <std::pair<std::string, int>> GanttChart;
+    std::vector <std::pair<std::string, double>> GanttChart;
     do {
         checkArrivedProcesses(time, processes, Q);
         sortQueue(Q);
         // showq(Q); /* to display which is next process for execution...
 
         if(fp == 100) { fp = Q.front().arrival_time; }
-        Q.front().burst_time --;
-        time ++;
+        Q.front().burst_time--;
+        time++;
         GanttChart.push_back(std::make_pair(Q.front().name, time));
         if(Q.front().burst_time == 0) { Q.pop(); }
 
@@ -115,7 +115,7 @@ int main() {
     *   (line 71) std::cout << "Now, remTime : " << Q.front().burst_time << " and time : " << time << std::endl;
     *   (line 77) std::cout << "Done with " << Q.front().name << std::endl;
     {"P1", 3, 5, false}, //? works for int values....
-    {"P2", 1, 2, false}, //? doesn't work perfectly for fp values(since we increment by 1 each time)...
+    {"P2", 1, 2, false}, //? doesn't work perfectly for floating-p values(since we increment by 1 each time)...
     {"P3", 2, 1, false},
     {"P4", 0, 4, false},
     {"P5", 2, 3, false}
