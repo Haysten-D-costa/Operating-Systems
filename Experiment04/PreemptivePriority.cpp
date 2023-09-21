@@ -12,8 +12,8 @@ struct Process {
     int priority;
     bool arrived;
 };
-int findLastOccurrenceOf(std::vector <std::pair<std::string, double>> GanttChart, int key) {
-    int value;
+double findLastOccurrenceOf(std::vector <std::pair<std::string, double>> GanttChart, int key) {
+    double value;
     for(int i=GanttChart.size(); i>=0; i--) {
         if(GanttChart[i].first == "P"+std::to_string(key)) {
             value = GanttChart[i].second;
@@ -51,7 +51,7 @@ void computeDetails(int fp, std::vector <std::pair<std::string, double>> GanttCh
 
     grid::printGanttChart(fp, GanttChart);
 }
-bool cmpBT(const Process& a, const Process& b) { // to sort based on the priorities of the processes....
+bool cmpP(const Process& a, const Process& b) { // to sort based on the priorities of the processes....
     return a.priority < b.priority;
 }
 void sortQueue(std::queue <Process>& Q) {
@@ -60,7 +60,7 @@ void sortQueue(std::queue <Process>& Q) {
         temp.push_back(Q.front());
         Q.pop();
     }
-    std::sort(temp.begin(), temp.end(), cmpBT);
+    std::sort(temp.begin(), temp.end(), cmpP);
     for(const Process& p : temp) {
         Q.push(p);
     }
@@ -73,69 +73,70 @@ void checkArrivedProcesses(double time, std::vector <Process>& processes, std::q
         }
     }
 }
-// double findMinT(std::vector <Process> P) {
-//     double min = P[0].burst_time;
-//     for(Process p : P) {
-//         if(p.burst_time < min) { min = p.burst_time; }
-//     }
-//     return min;
-// }
+double findMinT(std::vector <Process> P) {
+    double min = P[0].burst_time;
+    for(Process p : P) {
+        if(p.burst_time < min) { min = p.burst_time; }
+    }
+    return min;
+}
 void preemptivePriority(std::vector <Process>& processes) {
+    
     int fp = 100;
-    int count = 0;
     double time = 0;
+    double min_executionT = findMinT(processes); // similar to time quantum / slice....
     std::queue <Process> Q;
     std::vector <std::pair<std::string, double>> GanttChart;
+    std::string previousProcessName = ""; // Store the previous process name for comparison....
     do {
         checkArrivedProcesses(time, processes, Q);
         sortQueue(Q);
 
-        // double min_time = findMinT(processes);
         if(fp == 100) { fp = Q.front().arrival_time; }
-        Q.front().burst_time --;
-        time ++;
-        GanttChart.push_back(std::make_pair(Q.front().name, time));
 
-        /* 
-        ! This is just to compress the GanttChart, logic correct, but it doesnt work....
-        if(GanttChart.back().first == Q.front().name) { GanttChart.back().second += min_time; } 
-        else { GanttChart.push_back(std::make_pair(Q.front().name, time)); }
-        */ 
+        Q.front().burst_time -= min_executionT;
+        time += min_executionT;
 
-        if(Q.front().burst_time == 0) { Q.pop(); }
+        if(Q.front().name == previousProcessName) { // If the current process is the same as the previous one,
+            GanttChart.back().second = time; // update the end time of the last entry in GanttChart....
+        } else {
+            GanttChart.push_back(std::make_pair(Q.front().name, time)); // If the current process is different, add a new entry to GanttChart....
+            previousProcessName = Q.front().name; // Update the previous process name....
+        }
+        if (Q.front().burst_time == 0) { Q.pop(); }
 
-    } while(!Q.empty());
+    } while (!Q.empty());
     computeDetails(fp, GanttChart, processes);
 }
+
 int main() {
 
     int n;
     bool useAT = false;
-    // std::cout << "Enter the no. of processes : "; std::cin >> n;
-    // std::cout << "Enter arrival times for each process > [1-Yes / 0-No] "; std::cin >> useAT;
-    // std::vector <Process> processes(n);
-    std::vector <Process> processes {
-        {"P1", 0, 10, 3, false}, //? works with int not with double values....
-        {"P2", 1, 1, 1, false},
-        {"P3", 2, 2, 1, false},
-        {"P4", 3, 1, 2, false}
-    };
+    std::cout << "Enter the no. of processes : "; std::cin >> n;
+    std::cout << "Enter arrival times for each process > [1-Yes / 0-No] "; std::cin >> useAT;
+    std::vector <Process> processes(n);
     
-    // for(int i{}; i<n; i++) {
-    //     std::cout << "Process P" << (i+1) << std::endl;
-    //     if(useAT) { std::cout << "-> Arrival Time : "; std::cin >> processes[i].arrival_time; }
-    //     else { processes[i].arrival_time = 0; }
-    //     std::cout << "  -> Burst Time   : "; std::cin >> processes[i].burst_time;
-    //     std::cout << "  -> Priority     : "; std::cin >> processes[i].priority;
-    //     processes[i].name = "P"+std::to_string(i+1);
-    //     processes[i].arrived = false;
-    // }
+    for(int i{}; i<n; i++) {
+        std::cout << "Process P" << (i+1) << std::endl;
+        if(useAT) { std::cout << "  -> Arrival Time : "; std::cin >> processes[i].arrival_time; }
+        else { processes[i].arrival_time = 0; }
+        std::cout << "  -> Burst Time   : "; std::cin >> processes[i].burst_time;
+        std::cout << "  -> Priority     : "; std::cin >> processes[i].priority;
+        processes[i].name = "P"+std::to_string(i+1);
+        processes[i].arrived = false;
+    }
     preemptivePriority(processes);
     return 0;
 }
 /*
-    {"P1", 0, 10, 3, false}, //? works with int not with double values....
+    {"P1", 0, 10, 3, false}, //? works...
     {"P2", 1, 1, 1, false},
+    {"P3", 2, 2, 1, false},
+    {"P4", 3, 1, 2, false}
+    <AND>
+    {"P1", 0, 10, 3, false}, //? works...
+    {"P2", 1, 0.5, 1, false},
     {"P3", 2, 2, 1, false},
     {"P4", 3, 1, 2, false}
 */

@@ -70,21 +70,35 @@ void checkArrivedProcesses(double time, std::vector <Process>& processes, std::q
         }
     }
 }
+double findMinT(std::vector <Process> P) {
+    double min = P[0].burst_time;
+    for(Process p : P) {
+        if(p.burst_time < min) { min = p.burst_time; }
+    }
+    return min;
+}
 void shortestRemainingJobFirst(std::vector <Process>& processes) {
     
     int fp = 100;
     double time = 0;
+    double min_executionT = findMinT(processes);
     std::queue <Process> Q;
     std::vector <std::pair<std::string, double>> GanttChart;
+    std::string previousProcessName = "";
     do {
         checkArrivedProcesses(time, processes, Q);
         sortQueue(Q);
         // showq(Q); /* to display which is next process for execution...
 
         if(fp == 100) { fp = Q.front().arrival_time; }
-        Q.front().burst_time--;
-        time++;
-        GanttChart.push_back(std::make_pair(Q.front().name, time));
+        Q.front().burst_time -= 0.5;
+        time += 0.5;
+        if(Q.front().name == previousProcessName) { // If the current process is the same as the previous one,
+            GanttChart.back().second = time; // update the end time of the last entry in GanttChart....
+        } else {
+            GanttChart.push_back(std::make_pair(Q.front().name, time)); // If the current process is different, add a new entry to GanttChart....
+            previousProcessName = Q.front().name; // Update the previous process name....
+        }
         if(Q.front().burst_time == 0) { Q.pop(); }
 
     } while(!Q.empty());
@@ -101,9 +115,9 @@ int main() {
 
     for(int i{}; i<n; i++) {
         std::cout << "Process P" << i+1 << " : " << std::endl;
-        if(useAT) { std::cout << "-> Arrival Time : "; std::cin >> processes[i].arrival_time; }
+        if(useAT) { std::cout << "  -> Arrival Time : "; std::cin >> processes[i].arrival_time; }
         else { processes[i].arrival_time = 0; }
-        std::cout << "-> Burst Time   : "; std::cin >> processes[i].burst_time;
+        std::cout << "  -> Burst Time   : "; std::cin >> processes[i].burst_time;
         processes[i].name = "P"+std::to_string(i+1);
     }
     shortestRemainingJobFirst(processes);
