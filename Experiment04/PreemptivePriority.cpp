@@ -43,7 +43,7 @@ void computeDetails(int fp, std::vector <std::pair<std::string, double>> GanttCh
         avgWT += waiting_time[i];
         avgTT += turn_around_time[i]; 
     }
-    std::vector <std::string> v = {"Process", "WaitingTime", "ArrivalTime", "BurstTime", "TurnAroundTime", "Priority"};
+    std::vector <std::string> v = {"Process", "BurstTime", "ArrivalTime", "Priority", "WaitingTime", "TurnAroundTime"};
     
     grid::printDetailsTable(P.size(), v, arrival_time, burst_time, waiting_time, turn_around_time, priority);
     std::cout << "-> Average waiting time     : " << avgWT/P.size()<< std::endl
@@ -112,15 +112,12 @@ void preemptivePriority(std::vector <Process>& processes) {
 int main() {
 
     int n;
-    bool useAT = false;
     std::cout << "Enter the no. of processes : "; std::cin >> n;
-    std::cout << "Enter arrival times for each process > [1-Yes / 0-No] "; std::cin >> useAT;
     std::vector <Process> processes(n);
     
     for(int i{}; i<n; i++) {
         std::cout << "Process P" << (i+1) << std::endl;
-        if(useAT) { std::cout << "  -> Arrival Time : "; std::cin >> processes[i].arrival_time; }
-        else { processes[i].arrival_time = 0; }
+        std::cout << "  -> Arrival Time : "; std::cin >> processes[i].arrival_time;
         std::cout << "  -> Burst Time   : "; std::cin >> processes[i].burst_time;
         std::cout << "  -> Priority     : "; std::cin >> processes[i].priority;
         processes[i].name = "P"+std::to_string(i+1);

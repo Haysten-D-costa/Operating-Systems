@@ -88,7 +88,7 @@ int main() {
 
     std::cout << "Enter the no. of processes : ";
     std::cin >> n;
-    std::cout << "Enter the Burst Times for each process : " << std::endl << std::endl;
+    std::cout << std::endl << "Enter the Burst Times for each process : " << std::endl;
 
     for(int i{1}; i<=n; i++) {
             std::cout << "Burst Time for P" << i << " : ";

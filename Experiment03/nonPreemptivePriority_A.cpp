@@ -87,10 +87,11 @@ void nonPreemptivePriority(int n, double burst_time[], double arrival_time[], in
     }
     avgWT /= n;
     avgTT /= n;
-    std::cout << std::endl << "Process\t\tBurstTime\tPriority\tWaitingTime\tTurnAroundTime" << std::endl;
+    std::cout << std::endl << "Process\t\tBurstTime\tArrivalTime\tPriority\tWaitingTime\tTurnAroundTime" << std::endl;
     for(int i{1}; i<=n; i++) {
         std::cout << std::endl << "P" << processOrder[i] << "\t\t"
                   << burst_time[i] << "\t\t"
+                  << arrival_time[i] << "\t\t"
                   << priority[i] << "\t\t"
                   << waiting_time[i] << "\t\t"
                   << turn_around_time[i];

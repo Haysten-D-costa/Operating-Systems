@@ -39,7 +39,7 @@ void computeDetails(int fp, std::vector <std::pair<std::string, double>> GanttCh
         avgWT += waiting_time[i];
         avgTT += turn_around_time[i]; 
     }
-    std::vector <std::string> v = {"Process", "WaitingTime", "ArrivalTime", "BurstTime", "TurnAroundTime"};
+    std::vector <std::string> v = {"Process", "BurstTime", "ArrivalTime", "WaitingTime", "TurnAroundTime"};
     
     grid::printDetailsTable(P.size(), v, arrival_time, burst_time, waiting_time, turn_around_time);
     std::cout << "-> Average waiting time     : " << avgWT/P.size()<< std::endl
@@ -59,7 +59,7 @@ void checkNextProcess(int n, int time, std::queue <Process> &readyQueue, std::ve
 void roundRobinScheduling(std::vector <Process> &processes, double time_quantum) {
 
     double time = 0; // main CPU timer....
-    int n = processes.size();
+    int n = processes.size(); // getting the no. of processes....
     int fp = 0; // first process that begins with execution....
     std::queue <Process> readyQueue; // readyQueue - DS used to hold the processes that are ready to execute....
     std::vector <std::pair<std::string, double>> GanttChart; // GanttChart - stores the sequence of processes(execution)....
@@ -102,16 +102,13 @@ void roundRobinScheduling(std::vector <Process> &processes, double time_quantum)
 int main() {
 
     int n; // no. of processes....
-    bool useAT = false; // all processes arrive at '0' by default... 
     int time_quantum;   // time slice for each process....
     std::cout << "Enter the no. of processes : "; std::cin >> n;
     std::vector <Process> processes(n);
 
-    std::cout << "Enter arrival times for each process ? [1-Yes / 0-No] "; std::cin >> useAT;
     for(int i{}; i<n; i++) {
         std::cout << "Process P" << i+1 << " : " << std::endl;
-        if(useAT) { std::cout << "-> Arrival Time : "; std::cin >> processes[i].arrival_time; }
-        else { processes[i].arrival_time = 0; }
+        std::cout << "-> Arrival Time : "; std::cin >> processes[i].arrival_time;
         std::cout << "-> Burst Time   : "; std::cin >> processes[i].burst_time;
         processes[i].name = "P"+std::to_string(i+1);
         processes[i].visited = false;

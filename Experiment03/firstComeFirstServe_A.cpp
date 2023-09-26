@@ -98,7 +98,7 @@ void firstComeFirstServe(double burst_time[], double arrival_time[], int n) {
     avgWT /= n;
     avgTT /= n;
 
-    std::vector <std::string> v = {"Process", "WaitingTime", "ArrivalTime", "BurstTime", "TurnAroundTime"};
+    std::vector <std::string> v = {"Process", "BurstTime", "ArrivalTime", "WaitingTime", "TurnAroundTime"};
     for(int i{}; i<v.size(); i++) {
         std::cout << "+";
         for(int j{}; j<v[i].length()+6; j++) {
@@ -121,9 +121,9 @@ void firstComeFirstServe(double burst_time[], double arrival_time[], int n) {
     for(int i{1}; i<=n; i++) {
 
         grid::cAlign("|", "P"+std::to_string(i), v[0].length()+6);
-        grid::cAlign("|", std::to_string(waiting_time[i]), v[1].length()+6);
+        grid::cAlign("|", std::to_string(burst_time[i]), v[1].length()+6);
         grid::cAlign("|", std::to_string(arrival_time[i]), v[2].length()+6);
-        grid::cAlign("|", std::to_string(burst_time[i]), v[3].length()+6);
+        grid::cAlign("|", std::to_string(waiting_time[i]), v[3].length()+6);
         grid::cAlign("|", std::to_string(turn_around_time[i]), v[4].length()+6); 
         std::cout << "|" << std::endl;
     }

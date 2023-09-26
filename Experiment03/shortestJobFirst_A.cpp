@@ -90,10 +90,11 @@ void shortestJobFirstArrival(int n, double burst_time[], double arrival_time[]) 
     }
     avgWT /= n;
     avgTT /= n;
-    std::cout << std::endl << "Process\t\tBurstTime\tWaitingTime\tTurnAroundTime" << std::endl;
+    std::cout << std::endl << "Process\t\tBurstTime\tArrivalTime\tWaitingTime\tTurnAroundTime" << std::endl;
     for(int i{1}; i<=n; i++) {
         std::cout << std::endl << "P" << processOrder[i] << "\t\t"
                   << burst_time[i] << "\t\t"
+                  << arrival_time[i] << "\t\t"
                   << waiting_time[i] << "\t\t"
                   << turn_around_time[i];
     }
