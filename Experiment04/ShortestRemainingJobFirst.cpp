@@ -40,7 +40,7 @@ void computeDetails(int fp, std::vector <std::pair<std::string, double>> GanttCh
         avgWT += waiting_time[i];
         avgTT += turn_around_time[i]; 
     }
-    std::vector <std::string> v = {"Process", "ArrivalTime", "BurstTime", "WaitingTime", "TurnAroundTime"};
+    std::vector <std::string> v = {"Process", "BurstTime", "ArrivalTime",  "WaitingTime", "TurnAroundTime"};
     
     grid::printDetailsTable(P.size(), v, arrival_time, burst_time, waiting_time, turn_around_time);
     std::cout << "-> Average waiting time     : " << avgWT/P.size()<< std::endl

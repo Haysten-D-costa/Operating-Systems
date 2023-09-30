@@ -102,7 +102,7 @@ namespace grid {
         std::cout << fp;
         for(int i{}; i<GanttChart.size(); i++) {
             if(GanttChart[i].second < 10) std::cout << "  " << GanttChart[i].second;
-            else std::cout << "  " << GanttChart[i].second;
+            else std::cout << " " << GanttChart[i].second;
         }
         std::cout << std::endl;
     }
