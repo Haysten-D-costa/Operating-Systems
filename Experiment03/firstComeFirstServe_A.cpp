@@ -59,8 +59,8 @@ void printGChart(double ganttChart[], int processOrder[], int n) {
     std::cout << "+" << std::endl;
 
     for(int i{}; i<=n; i++) {
-        if(ganttChart[i] < 10) { std::cout << ganttChart[i] << "    "; }
-        else { std::cout << ganttChart[i] << "   "; }
+        if(ganttChart[i] < 10) { std::cout << ganttChart[i] << "  "; }
+        else { std::cout << ganttChart[i] << " "; }
     }
     std::cout << std::endl;
 }
@@ -120,7 +120,7 @@ void firstComeFirstServe(double burst_time[], double arrival_time[], int n) {
     
     for(int i{1}; i<=n; i++) {
 
-        grid::cAlign("|", "P"+std::to_string(i), v[0].length()+6);
+        grid::cAlign("|", "P"+std::to_string(processOrder[i]), v[0].length()+6);
         grid::cAlign("|", std::to_string(burst_time[i]), v[1].length()+6);
         grid::cAlign("|", std::to_string(arrival_time[i]), v[2].length()+6);
         grid::cAlign("|", std::to_string(waiting_time[i]), v[3].length()+6);
