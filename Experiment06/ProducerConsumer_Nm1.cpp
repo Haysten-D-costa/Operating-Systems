@@ -1,0 +1,70 @@
+#include <iostream>
+#include <stdlib.h>
+#define MAX 10
+
+int buffer[MAX];
+int buffSize = 0;
+int mutex = 1, in = 0, out = 0;
+int buffEmpty = 4, buffFull = 0, nextConsumed, nextProduced;
+
+int wait(int s) {
+    if(s < 0) { std::cout << "Deadlock !" << std::endl; }
+    s--;
+    return s;
+}
+int signal(int s) {
+    s++;
+    return s;
+}
+int producer() {
+    mutex = wait(mutex);
+    buffEmpty = wait(buffEmpty);
+
+    if(((in + 1) % buffSize) == out) { std::cout << "Buffer Full !" << std::endl; }
+    else {
+        std::cout << "Item to be produced ? ";
+        std::cin >> nextProduced;
+
+        buffer[in] = nextProduced;
+        in = (in + 1) % buffSize;
+        mutex = signal(mutex);
+        buffFull = signal(buffFull);
+    }
+}
+int consumer() {
+    mutex = wait(mutex);
+    buffFull = wait(buffFull);
+
+    if(in == out) { std::cout << "Buffer Empty !" << std::endl; }
+    else {
+        nextConsumed = buffer[out];
+        std::cout << "Item consumed : " << nextConsumed << "\n";
+
+        out = (out + 1) % buffSize;
+        mutex = signal(mutex);
+        buffEmpty = signal(buffEmpty);
+    }
+}
+
+int main() {
+
+    int choice;
+    std::cout << "Enter the size of buffer : "; 
+    std::cin >> buffSize;
+    std::cout << std::endl << "1 <- To Produce item...." << std::endl
+              << "2 <- To Consume item...." << std::endl
+              << "0 <- To Exit....\n";
+    do {
+        std::cout << std::endl << "Choice ? "; 
+        std::cin >> choice;
+
+        switch(choice) {
+            case 0 : exit(0); break;
+            case 1 : producer(); break;
+            case 2 : consumer(); break;
+            default: std::cout << "Invalid !" << std::endl;
+        }
+    } while (true);
+
+    return 0;
+}
