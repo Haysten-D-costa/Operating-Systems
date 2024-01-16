@@ -14,27 +14,6 @@ int n, timeQuantum;
 double wt = 0, tat = 0;
 Process processes[MAX];
 
-// void sort() {
-//     for(int i=0; i<n-1; i++) {
-//         for(int j=0; j<n-1-i; j++) {
-//             if(processes[j].AT > processes[j+1].AT) 
-//             {
-//                 int temp = processes[j].AT;
-//                 processes[j].AT = processes[j+1].AT;
-//                 processes[j+1].AT = temp;
-
-//                 temp = processes[j].BT;
-//                 processes[j].BT = processes[j+1].BT;
-//                 processes[j+1].BT = temp;
-
-//                 temp = processes[j].PI;
-//                 processes[j].PI = processes[j+1].PI;
-//                 processes[j+1].PI = temp;
-//             }
-//         }
-//     }
-// }
-
 int main() {
     cout << "Enter no. of processes : "; cin >> n;
     cout << "Enter time quantum     : "; cin >> timeQuantum;
