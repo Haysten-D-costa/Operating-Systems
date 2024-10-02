@@ -5,17 +5,19 @@
 limit=20
 echo "Prime numbers are : "
 
-for (( i=2; i<limit; i++ ))
-do
+for ((i=2; i<limit; i++))
+ do
     is_prime=1
-    for (( j=2; j<i; j++ ))
-    do
-        if [ `expr $i % $j` -eq 0 ]; then # if 'i' is divisible by any-number, => 'i' not prime....
+    for ((j=2; j*j<=i; j++))
+     do
+        if [ $((i % j)) -eq 0 ]
+         then
             is_prime=0
+            break
         fi
     done
-    if [ $is_prime ]
-    then
+    if [ $is_prime -eq 1 ]
+     then
         echo -n "$i "
     fi
 done    
